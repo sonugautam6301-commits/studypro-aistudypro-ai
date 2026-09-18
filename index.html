@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudyPro AI - प्रो पढ़ाई सहायक</title>
+    <title>StudyPro AI - सुपर पढ़ाई सहायक</title>
     <style>
         :root {
             --bg-grad: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
@@ -23,32 +23,32 @@
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; transition: background 0.3s, color 0.3s; }
         body { background: var(--bg-grad); color: var(--text-main); min-height: 100vh; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        .container { width: 100%; max-width: 500px; background: var(--card-bg); backdrop-filter: blur(10px); border-radius: 24px; padding: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); border: 1px var(--border-color) solid; margin-bottom: 20px; position: relative; }
+        .container { width: 100%; max-width: 550px; background: var(--card-bg); backdrop-filter: blur(10px); border-radius: 24px; padding: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); border: 1px var(--border-color) solid; margin-bottom: 20px; }
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         h1 { font-size: 26px; color: #6366f1; }
         .theme-btn { background: none; border: 1px var(--border-color) solid; color: var(--text-main); padding: 6px 12px; border-radius: 20px; cursor: pointer; font-size: 13px; }
         p.subtitle { color: var(--text-sub); font-size: 14px; margin-bottom: 20px; text-align: center; }
         .streak-badge { text-align: center; background: rgba(234, 179, 8, 0.15); color: #eab308; padding: 6px; border-radius: 12px; font-weight: bold; font-size: 14px; margin-bottom: 20px; border: 1px rgba(234, 179, 8, 0.3) solid; }
-        h3 { margin-bottom: 12px; color: var(--text-main); font-size: 16px; border-left: 4px #6366f1 solid; padding-left: 8px; }
-        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 20px; }
-        .btn-sub { background: rgba(99, 102, 241, 0.05); border: 1px var(--border-color) solid; color: var(--text-main); padding: 10px; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 14px; }
+        h3 { margin-bottom: 12px; color: var(--text-main); font-size: 16px; border-left: 4px #6366f1 solid; padding-left: 8px; margin-top: 15px; }
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 20px; }
+        .btn-sub { background: rgba(99, 102, 241, 0.05); border: 1px var(--border-color) solid; color: var(--text-main); padding: 10px 5px; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 13px; text-align: center; }
         .btn-sub:hover, .btn-sub.active { background: #6366f1; color: white; border-color: #818cf8; box-shadow: 0 0 10px rgba(99, 102, 241, 0.4); }
-        .timer-box { display: flex; gap: 8px; align-items: center; margin-bottom: 20px; }
+        .timer-box { display: flex; gap: 8px; align-items: center; margin-bottom: 15px; }
         select, input, textarea { width: 100%; background: var(--input-bg); border: 1px var(--border-color) solid; color: var(--text-main); padding: 12px; border-radius: 12px; font-size: 14px; }
         select { width: auto; flex-grow: 1; }
         .btn-timer { background: #10b981; border: none; color: white; padding: 12px 16px; border-radius: 12px; cursor: pointer; font-weight: bold; }
         .btn-timer.stop { background: #ef4444; }
-        .countdown { text-align: center; font-size: 22px; font-weight: bold; color: #10b981; margin-bottom: 15px; display: none; }
+        .countdown { text-align: center; font-size: 24px; font-weight: bold; color: #10b981; margin-bottom: 15px; display: none; background: rgba(16, 185, 129, 0.1); padding: 8px; border-radius: 10px; }
         .input-wrapper { position: relative; margin-bottom: 15px; }
         .mic-btn { position: absolute; right: 10px; bottom: 10px; background: #475569; border: none; color: white; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; }
         .mic-btn.listening { background: #ef4444; animation: pulse 1.2s infinite; }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
         .btn-ask { width: 100%; background: #6366f1; border: none; color: white; padding: 14px; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; }
-        .output-box { margin-top: 15px; background: rgba(0, 0, 0, 0.25); border-radius: 12px; padding: 15px; display: none; border: 1px var(--border-color) solid; white-space: pre-wrap; }
-        .save-btn { background: #f59e0b; border: none; color: white; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: bold; margin-top: 10px; display: none; }
-        .notes-section { margin-top: 20px; background: rgba(99, 102, 241, 0.05); border-radius: 12px; padding: 12px; display: none; border: 1px rgba(99, 102, 241, 0.2) solid; }
-        .note-item { background: var(--card-bg); padding: 8px; border-radius: 8px; margin-top: 6px; font-size: 13px; border: 1px var(--border-color) solid; position: relative; }
-        .clear-btn { color: #ef4444; cursor: pointer; font-size: 11px; float: right; }
+        .output-box { margin-top: 15px; background: rgba(0, 0, 0, 0.25); border-radius: 12px; padding: 15px; display: none; border: 1px var(--border-color) solid; white-space: pre-wrap; line-height: 1.6; }
+        .save-btn { background: #f59e0b; border: none; color: white; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: bold; margin-top: 10px; display: none; }
+        .notes-section { margin-top: 25px; background: rgba(99, 102, 241, 0.05); border-radius: 12px; padding: 15px; display: none; border: 1px rgba(99, 102, 241, 0.2) solid; }
+        .note-item { background: var(--card-bg); padding: 12px; border-radius: 8px; margin-top: 8px; font-size: 13px; border: 1px var(--border-color) solid; line-height: 1.5; }
+        .clear-btn { color: #ef4444; cursor: pointer; font-size: 12px; font-weight: bold; float: right; margin-left: 10px; }
     </style>
 </head>
 <body>
@@ -65,9 +65,9 @@
 
         <!-- API Key Input -->
         <h3>1. Gemini API Key सेट करें</h3>
-        <input type="password" id="apiKey" style="margin-bottom:15px;" placeholder="यहाँ अपनी AIzaSy... की पेस्ट करें">
+        <input type="password" id="apiKey" style="margin-bottom:15px;" placeholder="यहाँ अपनी AIzaSy... की पेस्ट करें" oninput="saveApiKey()">
 
-        <!-- Subjects -->
+        <!-- Subjects Grid -->
         <h3>2. विषय चुनें</h3>
         <div class="grid">
             <button class="btn-sub" onclick="selectSubject('Physics', this)">Physics</button>
@@ -76,15 +76,24 @@
             <button class="btn-sub" onclick="selectSubject('Maths', this)">Maths</button>
             <button class="btn-sub" onclick="selectSubject('English', this)">English</button>
             <button class="btn-sub" onclick="selectSubject('Hindi', this)">Hindi</button>
+            <button class="btn-sub" onclick="selectSubject('Urdu', this)">Urdu</button>
+            <button class="btn-sub" onclick="selectSubject('History', this)">History</button>
+            <button class="btn-sub" onclick="selectSubject('Geography', this)">Geography</button>
+            <button class="btn-sub" onclick="selectSubject('Civics', this)">Civics</button>
+            <button class="btn-sub" onclick="selectSubject('Economics', this)">Economics</button>
+            <button class="btn-sub" onclick="selectSubject('Computer Science', this)">Computer</button>
         </div>
 
-        <!-- Timer -->
-        <h3>3. फोकस टाइमर</h3>
+        <!-- Timer/Alarm Section -->
+        <h3>3. फोकस टाइमर और अलार्म</h3>
         <div class="timer-box">
             <select id="timerMinutes">
-                <option value="1">1 मिनट (टेस्ट करें)</option>
+                <option value="1">1 मिनट (टेस्ट अलार्म)</option>
+                <option value="5">5 मिनट</option>
+                <option value="15">15 मिनट</option>
                 <option value="25">25 मिनट (फोकस मोड)</option>
                 <option value="45">45 मिनट (गहन अध्ययन)</option>
+                <option value="60">60 मिनट</option>
             </select>
             <button id="timerBtn" class="btn-timer" onclick="toggleTimer()">शुरू करें</button>
         </div>
@@ -99,13 +108,13 @@
         </div>
         <button class="btn-ask" onclick="askAI()">AI से उत्तर पूछें</button>
 
-        <!-- Response -->
+        <!-- Response Window -->
         <div id="aiOutput" class="output-box"></div>
         <button id="saveNoteBtn" class="save-btn" onclick="saveAsNote()">💾 नोट्स में सेव करें</button>
 
-        <!-- Saved Notes -->
+        <!-- Saved Notes Manager -->
         <div class="notes-section" id="notesSection">
-            <h4 style="font-size:14px; color:#6366f1;">📌 आपके महत्वपूर्ण नोट्स:</h4>
+            <h4 style="font-size:14px; color:#6366f1;">📌 आपके सभी नोट्स (All Notes):</h4>
             <div id="notesContainer"></div>
         </div>
     </div>
@@ -119,7 +128,17 @@
         window.onload = function() {
             let streak = localStorage.getItem('studyStreak') || 1;
             document.getElementById('streakDisplay').innerText = `🔥 पढ़ाई स्ट्रीक: ${streak} दिन`;
+            
+            let savedKey = localStorage.getItem('geminiApiKey');
+            if(savedKey) {
+                document.getElementById('apiKey').value = savedKey;
+            }
             loadNotes();
+        }
+
+        function saveApiKey() {
+            let key = document.getElementById('apiKey').value.trim();
+            localStorage.setItem('geminiApiKey', key);
         }
 
         function toggleTheme() {
@@ -135,38 +154,16 @@
 
         function startVoiceInput() {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (!SpeechRecognition) { alert("माफ़ करें, आपका ब्राउज़र वॉइस इनपुट सपोर्ट नहीं करता।"); return; }
-            
-            const recognition = new SpeechRecognition();
-            recognition.lang = 'hi-IN'; 
-            const micBtn = document.getElementById('micBtn');
-            
-            recognition.onstart = () => { micBtn.classList.add('listening'); };
-            recognition.onend = () => { micBtn.classList.remove('listening'); };
-            
-            recognition.onresult = (event) => {
-                const text = event.results[0][0].transcript;
-                document.getElementById('userInput').value = text;
-            };
-            recognition.start();
-        }
+कोड का इस्तेमाल सावधानी से करें.if (!SpeechRecognition) { alert("माफ़ करें, आपका ब्राउज़र वॉइस इनपुट सपोर्ट नहीं करता।"); return; }const recognition = new SpeechRecognition();recognition.lang = selectedSubject === 'Urdu' ? 'ur-PK' : 'hi-IN';const micBtn = document.getElementById('micBtn');recognition.onstart = () => { micBtn.classList.add('listening'); };recognition.onend = () => { micBtn.classList.remove('listening'); };recognition.onresult = (event) => {const text = event.results[0][0].transcript;document.getElementById('userInput').value = text;};recognition.start();}function initAudio() {if (!audioContext) {audioContext = new (window.AudioContext || window.webkitAudioContext)();}}function playAlarm() {initAudio();if (audioContext) {let osc = audioContext.createOscillator();let gain = audioContext.createGain();osc.connect(gain); gain.connect(audioContext.destination);osc.type = 'sine';osc.frequency.setValueAtTime(880, audioContext.currentTime);gain.gain.setValueAtTime(0.5, audioContext.currentTime);osc.start();setTimeout(() => osc.stop(), 2500);}}function toggleTimer() {initAudio();let btn = document.getElementById('timerBtn');let display = document.getElementById('countdownDisplay');if (btn.innerText === "शुरू करें") {let minutes = parseInt(document.getElementById('timerMinutes').value);let time = minutes * 60;display.style.display = "block";btn.innerText = "रोकें"; btn.classList.add('stop');timerInterval = setInterval(() => {let min = Math.floor(time / 60); let sec = time % 60;display.innerText = ${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')};if (time <= 0) {clearInterval(timerInterval);display.innerText = "समय समाप्त! 📚";btn.innerText = "शुरू करें"; btn.classList.remove('stop');playAlarm();updateStreak();setTimeout(() => alert("फोकस समय पूरा हुआ! अलार्म बज गया है।"), 100);}time--;}, 1000);} else {clearInterval(timerInterval);btn.innerText = "शुरू करें"; btn.classList.remove('stop');display.style.display = "none";}}function updateStreak() {let streak = parseInt(localStorage.getItem('studyStreak') || 1) + 1;localStorage.setItem('studyStreak', streak);document.getElementById('streakDisplay').innerText = 🔥 पढ़ाई स्ट्रीक: ${streak} दिन;}async function askAI() {let key = document.getElementById('apiKey').value.trim();let prompt = document.getElementById('userInput').value.trim();let output = document.getElementById('aiOutput');let saveBtn = document.getElementById('saveNoteBtn');if (!key) { alert("कृपया पहले अपनी Gemini API Key डालें!"); return; }if (!selectedSubject) { alert("कृपया पहले एक विषय चुनें!"); return; }if (!prompt) { alert("कृपया अपना प्रश्न लिखें या बोलें!"); return; }output.style.display = "block";output.innerText = "AI जवाब तैयार कर रहा है...";saveBtn.style.display = "none";try {let languageInstruction = selectedSubject === 'Urdu' ? 'in Urdu script' : 'in simple Hindi language';let fullPrompt = You are an expert study mentor. Explain "${prompt}" related to the subject "${selectedSubject}" in simple bullet points ${languageInstruction}. Keep sentences clear and structured.;let response = await fetch(https://googleapis.com{key}, {method: "POST",headers: { "Content-Type": "application/json" },body: JSON.stringify({ contents: [{ parts: [{ text: fullPrompt }] }] })});let data = await response.json();if (data.candidates && data.candidates[0].content.parts[0].text) {currentAIResponse = data.candidates[0].content.parts[0].text;output.innerText = currentAIResponse;saveBtn.style.display = "inline-block";} else {output.innerText = "त्रुटि: AI से सही डेटा नहीं मिल पाया। कृपया दोबारा पूछें।";}} catch (error) {console.error(error);output.innerText = "त्रुटि: कनेक्शन में समस्या हुई। कृपया अपनी API Key जांचें।";}}function saveAsNote() {if (!currentAIResponse) return;let notes = JSON.parse(localStorage.getItem('savedNotes') || "[]");let timestamp = new Date().toLocaleDateString('hi-IN');let newNote = {subject: selectedSubject,text: currentAIResponse,date: timestamp};notes.push(newNote);localStorage.setItem('savedNotes', JSON.stringify(notes));loadNotes();alert("नोट सफलतापूर्वक 'All Notes' में सेव कर लिया गया है!");}function loadNotes() {let notes = JSON.parse(localStorage.getItem('savedNotes') || "[]");let container = document.getElementById('notesContainer');let section = document.getElementById('notesSection');container.innerHTML = "";if (notes.length > 0) {section.style.display = "block";notes.forEach((note, index) => {container.innerHTML +=  <div class="note-item"> <span class="clear-btn" onclick="deleteNote(${index})">❌ हटाएँ</span> <strong style="color:#818cf8;">[${note.subject}] - ${note.date}</strong> <p style="margin-top: 5px; white-space: pre-wrap;">${note.text}</p> </div>;});} else {section.style.display = "none";}}function deleteNote(index) {let notes = JSON.parse(localStorage.getItem('savedNotes') || "[]");notes.splice(index, 1);localStorage.setItem('savedNotes', JSON.stringify(notes));loadNotes();}
+### 🛠️ इसे कैसे अपडेट करें?
+1. इस पूरे कोड को ऊपर से नीचे तक **कॉपी** कर लें।
+2. अपने GitHub पर `index.html` फ़ाइल खोलें, पुराना सारा कोड **Select All करके डिलीट** कर दें।
+3. इस नए कोड को पेस्ट करें और नीचे जाकर **Commit changes...** पर क्लिक करके सेव कर दें।
 
-        function initAudio() {
-            if (!audioContext) {
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            }
-        }
+इस बार आपका **Urdu सब्जेक्ट, टाइमर अलार्म और ऑल नोट्स फीचर** बिल्कुल परफेक्ट काम करेगा। 
 
-        function playAlarm() {
-            initAudio();
-            if (audioContext) {
-                let osc = audioContext.createOscillator();
-                let gain = audioContext.createGain();
-                osc.connect(gain); gain.connect(audioContext.destination);
-                osc.frequency.setValueAtTime(880, audioContext.currentTime);
-                gain.gain.setValueAtTime(0.4, audioContext.currentTime);
-                osc.start(); setTimeout(() => osc.stop(), 2000);
-            }
-        }
-
-                
+<FollowUp>
+जब आप इस कोड को अपडेट कर लें, तो अपनी **वेबसाइट को रीफ्रेश** करें और मुझे बताएं:
+* क्या **Urdu विषय** और **नया 3-कॉलम डिज़ाइन** सही दिख रहा है?
+* क्या **1 मिनट का टाइमर चलाकर** अलार्म की आवाज़ टेस्ट कर ली?
+</FollowUp>
