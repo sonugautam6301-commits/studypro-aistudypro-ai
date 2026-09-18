@@ -44,7 +44,7 @@
         .mic-btn.listening { background: #ef4444; animation: pulse 1.2s infinite; }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
         .btn-ask { width: 100%; background: #6366f1; border: none; color: white; padding: 14px; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; }
-        .output-box { margin-top: 15px; background: rgba(0, 0, 0, 0.15); border-radius: 12px; padding: 15px; display: none; border: 1px var(--border-color) solid; }
+        .output-box { margin-top: 15px; background: rgba(0, 0, 0, 0.25); border-radius: 12px; padding: 15px; display: none; border: 1px var(--border-color) solid; white-space: pre-wrap; }
         .save-btn { background: #f59e0b; border: none; color: white; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: bold; margin-top: 10px; display: none; }
         .notes-section { margin-top: 20px; background: rgba(99, 102, 241, 0.05); border-radius: 12px; padding: 12px; display: none; border: 1px rgba(99, 102, 241, 0.2) solid; }
         .note-item { background: var(--card-bg); padding: 8px; border-radius: 8px; margin-top: 6px; font-size: 13px; border: 1px var(--border-color) solid; position: relative; }
@@ -114,9 +114,8 @@
         let selectedSubject = "";
         let timerInterval;
         let currentAIResponse = "";
-        let audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        let audioContext;
 
-        // 1. Load Streak & Theme on start
         window.onload = function() {
             let streak = localStorage.getItem('studyStreak') || 1;
             document.getElementById('streakDisplay').innerText = `🔥 पढ़ाई स्ट्रीक: ${streak} दिन`;
@@ -134,7 +133,6 @@
             document.getElementById('selectedSubText').innerText = `चयनित विषय: ${subject}`;
         }
 
-        // 2. Speech to Text (Voice Feature)
         function startVoiceInput() {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (!SpeechRecognition) { alert("माफ़ करें, आपका ब्राउज़र वॉइस इनपुट सपोर्ट नहीं करता।"); return; }
@@ -153,15 +151,22 @@
             recognition.start();
         }
 
-        function playAlarm() {
-            let osc = audioContext.createOscillator();
-            let gain = audioContext.createGain();
-            osc.connect(gain); gain.connect(audioContext.destination);
-            osc.frequency.setValueAtTime(880, audioContext.currentTime);
-            gain.gain.setValueAtTime(0.4, audioContext.currentTime);
-            osc.start(); setTimeout(() => osc.stop(), 2000);
+        function initAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
         }
 
-        function toggleTimer() {
-            let btn = document.getElementById('timerBtn');
-      
+        function playAlarm() {
+            initAudio();
+            if (audioContext) {
+                let osc = audioContext.createOscillator();
+                let gain = audioContext.createGain();
+                osc.connect(gain); gain.connect(audioContext.destination);
+                osc.frequency.setValueAtTime(880, audioContext.currentTime);
+                gain.gain.setValueAtTime(0.4, audioContext.currentTime);
+                osc.start(); setTimeout(() => osc.stop(), 2000);
+            }
+        }
+
+                
