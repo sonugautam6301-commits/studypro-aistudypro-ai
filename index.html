@@ -1,274 +1,167 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>StudyPro AI</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
-
-    body {
-      background: #f4f7fb;
-      color: #222;
-    }
-
-    header {
-      background: linear-gradient(135deg, #4f46e5, #7c3aed);
-      color: white;
-      padding: 30px 20px;
-      text-align: center;
-    }
-
-    header h1 {
-      font-size: 32px;
-      margin-bottom: 8px;
-    }
-
-    header p {
-      font-size: 16px;
-      opacity: 0.9;
-    }
-
-    .container {
-      max-width: 900px;
-      margin: auto;
-      padding: 20px;
-    }
-
-    .card {
-      background: white;
-      border-radius: 16px;
-      padding: 24px;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-    }
-
-    .card h2 {
-      color: #4f46e5;
-      margin-bottom: 16px;
-      font-size: 22px;
-    }
-
-    .subjects {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 12px;
-    }
-
-    .subject {
-      padding: 15px 10px;
-      border-radius: 12px;
-      background: #eef2ff;
-      text-align: center;
-      font-weight: bold;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      border: 2px solid transparent;
-    }
-
-    .subject:hover {
-      background: #ddd6fe;
-      transform: translateY(-2px);
-    }
-
-    .subject.active {
-      background: #4f46e5;
-      color: white;
-      border-color: #7c3aed;
-    }
-
-    #selectedSubject {
-      font-size: 15px;
-      color: #555;
-      margin-bottom: 12px;
-      font-weight: 500;
-    }
-
-    textarea {
-      width: 100%;
-      min-height: 110px;
-      padding: 14px;
-      border: 1px solid #cbd5e1;
-      border-radius: 10px;
-      resize: vertical;
-      font-size: 15px;
-      outline: none;
-    }
-
-    textarea:focus {
-      border-color: #4f46e5;
-      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
-    }
-
-    button {
-      margin-top: 12px;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 10px;
-      background: #4f46e5;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    button:hover {
-      background: #3730a3;
-    }
-
-    #answer {
-      margin-top: 20px;
-      padding: 18px;
-      background: #f8fafc;
-      border-left: 4px solid #4f46e5;
-      border-radius: 8px;
-      line-height: 1.6;
-      display: none;
-      font-size: 15px;
-    }
-
-    .features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 15px;
-    }
-
-    .feature {
-      padding: 18px;
-      border-radius: 12px;
-      background: #f9fafb;
-      border: 1px solid #e5e7eb;
-    }
-
-    .feature h3 {
-      font-size: 17px;
-      margin-bottom: 8px;
-      color: #1f2937;
-    }
-
-    .feature p {
-      font-size: 14px;
-      color: #4b5563;
-      line-height: 1.4;
-    }
-
-    footer {
-      text-align: center;
-      padding: 30px 20px;
-      color: #6b7280;
-      font-size: 14px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyPro AI - प्रो पढ़ाई सहायक</title>
+    <style>
+        :root {
+            --bg-grad: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --text-main: #ffffff;
+            --text-sub: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --input-bg: rgba(0, 0, 0, 0.2);
+        }
+        .light-theme {
+            --bg-grad: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-sub: #475569;
+            --border-color: #cbd5e1;
+            --input-bg: #f1f5f9;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; transition: background 0.3s, color 0.3s; }
+        body { background: var(--bg-grad); color: var(--text-main); min-height: 100vh; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .container { width: 100%; max-width: 500px; background: var(--card-bg); backdrop-filter: blur(10px); border-radius: 24px; padding: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); border: 1px var(--border-color) solid; margin-bottom: 20px; position: relative; }
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        h1 { font-size: 26px; color: #6366f1; }
+        .theme-btn { background: none; border: 1px var(--border-color) solid; color: var(--text-main); padding: 6px 12px; border-radius: 20px; cursor: pointer; font-size: 13px; }
+        p.subtitle { color: var(--text-sub); font-size: 14px; margin-bottom: 20px; text-align: center; }
+        .streak-badge { text-align: center; background: rgba(234, 179, 8, 0.15); color: #eab308; padding: 6px; border-radius: 12px; font-weight: bold; font-size: 14px; margin-bottom: 20px; border: 1px rgba(234, 179, 8, 0.3) solid; }
+        h3 { margin-bottom: 12px; color: var(--text-main); font-size: 16px; border-left: 4px #6366f1 solid; padding-left: 8px; }
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 20px; }
+        .btn-sub { background: rgba(99, 102, 241, 0.05); border: 1px var(--border-color) solid; color: var(--text-main); padding: 10px; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 14px; }
+        .btn-sub:hover, .btn-sub.active { background: #6366f1; color: white; border-color: #818cf8; box-shadow: 0 0 10px rgba(99, 102, 241, 0.4); }
+        .timer-box { display: flex; gap: 8px; align-items: center; margin-bottom: 20px; }
+        select, input, textarea { width: 100%; background: var(--input-bg); border: 1px var(--border-color) solid; color: var(--text-main); padding: 12px; border-radius: 12px; font-size: 14px; }
+        select { width: auto; flex-grow: 1; }
+        .btn-timer { background: #10b981; border: none; color: white; padding: 12px 16px; border-radius: 12px; cursor: pointer; font-weight: bold; }
+        .btn-timer.stop { background: #ef4444; }
+        .countdown { text-align: center; font-size: 22px; font-weight: bold; color: #10b981; margin-bottom: 15px; display: none; }
+        .input-wrapper { position: relative; margin-bottom: 15px; }
+        .mic-btn { position: absolute; right: 10px; bottom: 10px; background: #475569; border: none; color: white; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+        .mic-btn.listening { background: #ef4444; animation: pulse 1.2s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+        .btn-ask { width: 100%; background: #6366f1; border: none; color: white; padding: 14px; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; }
+        .output-box { margin-top: 15px; background: rgba(0, 0, 0, 0.15); border-radius: 12px; padding: 15px; display: none; border: 1px var(--border-color) solid; }
+        .save-btn { background: #f59e0b; border: none; color: white; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: bold; margin-top: 10px; display: none; }
+        .notes-section { margin-top: 20px; background: rgba(99, 102, 241, 0.05); border-radius: 12px; padding: 12px; display: none; border: 1px rgba(99, 102, 241, 0.2) solid; }
+        .note-item { background: var(--card-bg); padding: 8px; border-radius: 8px; margin-top: 6px; font-size: 13px; border: 1px var(--border-color) solid; position: relative; }
+        .clear-btn { color: #ef4444; cursor: pointer; font-size: 11px; float: right; }
+    </style>
 </head>
 <body>
 
-  <header>
-    <h1>StudyPro AI</h1>
-    <p>आपका स्मार्ट पढ़ाई सहायक</p>
-  </header>
-
-  <div class="container">
-
-    <!-- विषय चयन सेक्शन -->
-    <div class="card">
-      <h2>विषय चुनें</h2>
-      <div class="subjects">
-        <div class="subject" onclick="selectSubject(this, 'Physics')">Physics</div>
-        <div class="subject" onclick="selectSubject(this, 'Chemistry')">Chemistry</div>
-        <div class="subject" onclick="selectSubject(this, 'Biology')">Biology</div>
-        <div class="subject" onclick="selectSubject(this, 'Maths')">Maths</div>
-        <div class="subject" onclick="selectSubject(this, 'English')">English</div>
-        <div class="subject" onclick="selectSubject(this, 'Hindi')">Hindi</div>
-      </div>
-    </div>
-
-    <!-- एआई असिस्टेंट सेक्शन -->
-    <div class="card">
-      <h2>AI Study Assistant</h2>
-      <div id="selectedSubject">चयनित विषय: सामान्य (General) — अब अपना प्रश्न पूछें।</div>
-      <textarea id="question" placeholder="जैसे: न्यूटन का पहला नियम सरल भाषा में समझाओ..."></textarea>
-      <button onclick="askAI()">प्रश्न पूछें</button>
-      <div id="answer"></div>
-    </div>
-
-    <!-- फीचर्स सेक्शन -->
-    <div class="card">
-      <h2>StudyPro AI Features</h2>
-      <div class="features">
-        <div class="feature">
-          <h3>📚 Smart Notes</h3>
-          <p>किसी भी विषय के छोटे और आसान नोट्स बनाएं।</p>
+    <div class="container">
+        <div class="top-bar">
+            <h1>StudyPro AI 🚀</h1>
+            <button class="theme-btn" onclick="toggleTheme()">🌓 थीम बदलें</button>
         </div>
-        <div class="feature">
-          <h3>🧠 Concept Learning</h3>
-          <p>मुश्किल टॉपिक को सरल भाषा में समझें।</p>
-        </div>
-        <div class="feature">
-          <h3>📝 Practice Questions</h3>
-          <p>अपने विषय के अभ्यास प्रश्न तैयार करें।</p>
-        </div>
-        <div class="feature">
-          <h3>📅 Study Planner</h3>
-          <p>अपनी पढ़ाई के लिए बेहतर समय सारणी बनाएं।</p>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <footer>
-    &copy; 2026 StudyPro AI | Made by Sonu
-  </footer>
-
-  <script>
-    let currentSubject = "General";
-
-    function selectSubject(element, subject) {
-      currentSubject = subject;
-      
-      // पुराने एक्टिव विषय से 'active' क्लास हटाना
-      const allSubjects = document.querySelectorAll('.subject');
-      allSubjects.forEach(sub => sub.classList.remove('active'));
-      
-      // नए चुने गए विषय पर 'active' क्लास जोड़ना
-      element.classList.add('active');
-
-      document.getElementById("selectedSubject").innerText =
-        "चयनित विषय: " + subject + " — अब अपना प्रश्न पूछें।";
-    }
-
-    function askAI() {
-      const question = document.getElementById("question").value.trim();
-      const answerBox = document.getElementById("answer");
-
-      if (question === "") {
-        answerBox.style.display = "block";
-        answerBox.style.borderLeftColor = "#ef4444"; // एरर के लिए लाल बॉर्डर
-        answerBox.innerHTML = "<span style='color: #ef4444; font-weight: bold;'>⚠️ कृपया पहले अपना प्रश्न लिखें।</span>";
-        return;
-      }
-
-      answerBox.style.display = "block";
-      answerBox.style.borderLeftColor = "#4f46e5"; // सामान्य बॉर्डर
-
-      answerBox.innerHTML =
-        "<b>✨ StudyPro AI उत्तर:</b><br><br>" +
-        "आपने <b>" + currentSubject + "</b> विषय के अंतर्गत पूछा है:<br>" +
-        "<i>\"" + question + "\"</i><br><br>" +
-        "🎉 <b>बधाई हो! आपकी वेबसाइट लाइव काम कर रही है।</b> यह StudyPro AI का शुरुआती इंटरफ़ेस (UI) वर्शन है। " +
-        "भविष्य में असली एआई जवाब पाने के लिए इसमें OpenAI या Google Gemini की API जोड़ी जा सकती है।";
+        <p class="subtitle">आपका पर्सनल AI ट्यूटर और स्टडी पार्टनर</p>
         
-      // प्रश्न पूछने के बाद बॉक्स को खाली करना
-      document.getElementById("question").value = "";
-    }
-  </script>
+        <!-- Streak Tracker -->
+        <div class="streak-badge" id="streakDisplay">🔥 पढ़ाई स्ट्रीक: 1 दिन</div>
 
-</body>
-</html>
+        <!-- API Key Input -->
+        <h3>1. Gemini API Key सेट करें</h3>
+        <input type="password" id="apiKey" style="margin-bottom:15px;" placeholder="यहाँ अपनी AIzaSy... की पेस्ट करें">
+
+        <!-- Subjects -->
+        <h3>2. विषय चुनें</h3>
+        <div class="grid">
+            <button class="btn-sub" onclick="selectSubject('Physics', this)">Physics</button>
+            <button class="btn-sub" onclick="selectSubject('Chemistry', this)">Chemistry</button>
+            <button class="btn-sub" onclick="selectSubject('Biology', this)">Biology</button>
+            <button class="btn-sub" onclick="selectSubject('Maths', this)">Maths</button>
+            <button class="btn-sub" onclick="selectSubject('English', this)">English</button>
+            <button class="btn-sub" onclick="selectSubject('Hindi', this)">Hindi</button>
+        </div>
+
+        <!-- Timer -->
+        <h3>3. फोकस टाइमर</h3>
+        <div class="timer-box">
+            <select id="timerMinutes">
+                <option value="1">1 मिनट (टेस्ट करें)</option>
+                <option value="25">25 मिनट (फोकस मोड)</option>
+                <option value="45">45 मिनट (गहन अध्ययन)</option>
+            </select>
+            <button id="timerBtn" class="btn-timer" onclick="toggleTimer()">शुरू करें</button>
+        </div>
+        <div id="countdownDisplay" class="countdown">00:00</div>
+
+        <!-- AI Input Area -->
+        <h3>4. प्रश्न पूछें (बोलकर या टाइप करके)</h3>
+        <div class="input-wrapper">
+            <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 4px;" id="selectedSubText">चयनित विषय: कोई नहीं</p>
+            <textarea id="userInput" rows="3" placeholder="अपना प्रश्न यहाँ लिखें या माइक दबाकर बोलें..."></textarea>
+            <button id="micBtn" class="mic-btn" onclick="startVoiceInput()">🎤</button>
+        </div>
+        <button class="btn-ask" onclick="askAI()">AI से उत्तर पूछें</button>
+
+        <!-- Response -->
+        <div id="aiOutput" class="output-box"></div>
+        <button id="saveNoteBtn" class="save-btn" onclick="saveAsNote()">💾 नोट्स में सेव करें</button>
+
+        <!-- Saved Notes -->
+        <div class="notes-section" id="notesSection">
+            <h4 style="font-size:14px; color:#6366f1;">📌 आपके महत्वपूर्ण नोट्स:</h4>
+            <div id="notesContainer"></div>
+        </div>
+    </div>
+
+    <script>
+        let selectedSubject = "";
+        let timerInterval;
+        let currentAIResponse = "";
+        let audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+        // 1. Load Streak & Theme on start
+        window.onload = function() {
+            let streak = localStorage.getItem('studyStreak') || 1;
+            document.getElementById('streakDisplay').innerText = `🔥 पढ़ाई स्ट्रीक: ${streak} दिन`;
+            loadNotes();
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('light-theme');
+        }
+
+        function selectSubject(subject, element) {
+            selectedSubject = subject;
+            document.querySelectorAll('.btn-sub').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+            document.getElementById('selectedSubText').innerText = `चयनित विषय: ${subject}`;
+        }
+
+        // 2. Speech to Text (Voice Feature)
+        function startVoiceInput() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) { alert("माफ़ करें, आपका ब्राउज़र वॉइस इनपुट सपोर्ट नहीं करता।"); return; }
+            
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'hi-IN'; 
+            const micBtn = document.getElementById('micBtn');
+            
+            recognition.onstart = () => { micBtn.classList.add('listening'); };
+            recognition.onend = () => { micBtn.classList.remove('listening'); };
+            
+            recognition.onresult = (event) => {
+                const text = event.results[0][0].transcript;
+                document.getElementById('userInput').value = text;
+            };
+            recognition.start();
+        }
+
+        function playAlarm() {
+            let osc = audioContext.createOscillator();
+            let gain = audioContext.createGain();
+            osc.connect(gain); gain.connect(audioContext.destination);
+            osc.frequency.setValueAtTime(880, audioContext.currentTime);
+            gain.gain.setValueAtTime(0.4, audioContext.currentTime);
+            osc.start(); setTimeout(() => osc.stop(), 2000);
+        }
+
+        function toggleTimer() {
+            let btn = document.getElementById('timerBtn');
+      
