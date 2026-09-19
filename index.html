@@ -1,669 +1,198 @@
-<!DOCTYPE html>
-<html lang="hi">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#6d5dfc" />
-  <title>StudyPro AI</title>
+<script>
+  let currentSubject = "General";
 
-  <style>
-    :root {
-      --bg: #f5f7ff;
-      --card: rgba(255,255,255,.88);
-      --text: #171827;
-      --muted: #70758a;
-      --primary: #6d5dfc;
-      --primary2: #8b5cf6;
-      --border: rgba(30,30,60,.08);
-      --shadow: 0 14px 40px rgba(51, 45, 120, .10);
+  function selectSubject(subject) {
+    currentSubject = subject;
+
+    document.getElementById("subjectLabel").textContent = subject;
+    document.getElementById("selectedSubject").textContent = subject;
+
+    showToast(subject + " चुना गया ✅");
+  }
+
+  async function askAI() {
+    const input = document.getElementById("question");
+    const text = input.value.trim();
+
+    if (!text) {
+      showToast("पहले अपना सवाल लिखो ✍️");
+      return;
     }
 
-    body.dark {
-      --bg: #0d1020;
-      --card: rgba(22,25,43,.92);
-      --text: #f5f7ff;
-      --muted: #aeb3c7;
-      --border: rgba(255,255,255,.08);
-      --shadow: 0 14px 40px rgba(0,0,0,.30);
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(109,93,252,.15), transparent 30%),
-        var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      transition: .25s ease;
-    }
-
-    button,
-    textarea,
-    input {
-      font: inherit;
-    }
-
-    button {
-      border: none;
-      cursor: pointer;
-    }
-
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(14px);
-      background: rgba(255,255,255,.72);
-      border-bottom: 1px solid var(--border);
-    }
-
-    body.dark .topbar {
-      background: rgba(13,16,32,.72);
-    }
-
-    .nav {
-      max-width: 1100px;
-      margin: auto;
-      padding: 14px 18px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .logo {
-      width: 44px;
-      height: 44px;
-      display: grid;
-      place-items: center;
-      border-radius: 14px;
-      color: white;
-      font-weight: 800;
-      font-size: 18px;
-      background: linear-gradient(135deg, var(--primary), var(--primary2));
-      box-shadow: 0 10px 25px rgba(109,93,252,.28);
-    }
-
-    .brand h1 {
-      font-size: 19px;
-    }
-
-    .brand p {
-      font-size: 11px;
-      color: var(--muted);
-      margin-top: 2px;
-    }
-
-    .theme-btn {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      color: var(--text);
-    }
-
-    .hero {
-      max-width: 1100px;
-      margin: auto;
-      padding: 34px 18px 20px;
-    }
-
-    .hero-box {
-      border-radius: 28px;
-      padding: 30px;
-      color: white;
-      background:
-        radial-gradient(circle at 90% 20%, rgba(255,255,255,.24), transparent 22%),
-        linear-gradient(135deg, #5b4cf6, #8b5cf6);
-      box-shadow: 0 25px 55px rgba(78,61,210,.22);
-      overflow: hidden;
-      position: relative;
-    }
-
-    .hero-box::after {
-      content: "";
-      position: absolute;
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      right: -70px;
-      bottom: -80px;
-      background: rgba(255,255,255,.09);
-    }
-
-    .hero-badge {
-      display: inline-block;
-      padding: 7px 11px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.16);
-      font-size: 12px;
-      margin-bottom: 14px;
-    }
-
-    .hero h2 {
-      font-size: clamp(28px, 6vw, 48px);
-      line-height: 1.05;
-      max-width: 720px;
-    }
-
-    .hero p {
-      margin-top: 12px;
-      max-width: 680px;
-      color: rgba(255,255,255,.88);
-      line-height: 1.6;
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 0 18px 35px;
-    }
-
-    .section-title {
-      font-size: 20px;
-      margin: 20px 0 14px;
-    }
-
-    .subject-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
-
-    .subject {
-      padding: 16px;
-      border-radius: 18px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
-      text-align: left;
-      color: var(--text);
-      transition: .2s ease;
-    }
-
-    .subject:hover {
-      transform: translateY(-3px);
-    }
-
-    .subject .icon {
-      font-size: 25px;
-    }
-
-    .subject strong {
-      display: block;
-      margin-top: 10px;
-      font-size: 15px;
-    }
-
-    .subject span {
-      display: block;
-      margin-top: 4px;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .chat-card {
-      margin-top: 22px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-
-    .chat-head {
-      padding: 17px 18px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .chat-head strong {
-      font-size: 16px;
-    }
-
-    .online {
-      color: #22c55e;
-      font-size: 12px;
-    }
-
-    .messages {
-      min-height: 250px;
-      max-height: 420px;
-      overflow-y: auto;
-      padding: 18px;
-    }
-
-    .message {
-      display: flex;
-      margin-bottom: 13px;
-    }
-
-    .message.user {
-      justify-content: flex-end;
-    }
-
-    .bubble {
-      max-width: 82%;
-      padding: 12px 14px;
-      border-radius: 17px;
-      line-height: 1.55;
-      font-size: 14px;
-    }
-
-    .message.ai .bubble {
-      background: var(--bg);
-      border: 1px solid var(--border);
-    }
-
-    .message.user .bubble {
-      background: linear-gradient(135deg, var(--primary), var(--primary2));
-      color: white;
-    }
-
-    .chat-input-area {
-      padding: 14px;
-      border-top: 1px solid var(--border);
-    }
-
-    textarea {
-      width: 100%;
-      min-height: 90px;
-      resize: vertical;
-      border: 1px solid var(--border);
-      background: var(--bg);
-      color: var(--text);
-      border-radius: 16px;
-      padding: 13px;
-      outline: none;
-    }
-
-    textarea:focus {
-      border-color: var(--primary);
-    }
-
-    .send-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .selected {
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .send-btn {
-      padding: 12px 18px;
-      border-radius: 13px;
-      color: white;
-      background: linear-gradient(135deg, var(--primary), var(--primary2));
-      font-weight: 700;
-    }
-
-    .tools {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
-
-    .tool {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 18px;
-      box-shadow: var(--shadow);
-    }
-
-    .tool-icon {
-      font-size: 25px;
-    }
-
-    .tool h3 {
-      margin-top: 10px;
-      font-size: 15px;
-    }
-
-    .tool p {
-      margin-top: 6px;
-      font-size: 12px;
-      line-height: 1.5;
-      color: var(--muted);
-    }
-
-    .footer {
-      text-align: center;
-      color: var(--muted);
-      padding: 25px 18px 35px;
-      font-size: 12px;
-    }
-
-    .toast {
-      position: fixed;
-      left: 50%;
-      bottom: 22px;
-      transform: translate(-50%, 20px);
-      opacity: 0;
-      pointer-events: none;
-      background: #171827;
-      color: white;
-      padding: 11px 15px;
-      border-radius: 12px;
-      font-size: 13px;
-      transition: .25s ease;
-      z-index: 200;
-    }
-
-    .toast.show {
-      transform: translate(-50%, 0);
-      opacity: 1;
-    }
-
-    @media (min-width: 700px) {
-      .subject-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-
-      .tools {
-        grid-template-columns: repeat(4, 1fr);
-      }
-    }
-  </style>
-</head>
-
-<body>
-
-  <div class="topbar">
-    <div class="nav">
-      <div class="brand">
-        <div class="logo">SP</div>
-        <div>
-          <h1>StudyPro AI</h1>
-          <p>Smart Learning Assistant</p>
-        </div>
-      </div>
-
-      <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
-    </div>
-  </div>
-
-  <section class="hero">
-    <div class="hero-box">
-      <span class="hero-badge">✨ AI Powered Study Platform</span>
-      <h2>पढ़ाई को बनाओ आसान, स्मार्ट और तेज़।</h2>
-      <p>
-        Physics, Chemistry, Biology, Maths, Hindi और English
-        के concepts को आसान भाषा में समझने के लिए StudyPro AI का इस्तेमाल करें।
-      </p>
-    </div>
-  </section>
-
-  <main class="container">
-
-    <h2 class="section-title">📚 अपना विषय चुनें</h2>
-
-    <div class="subject-grid">
-
-      <button class="subject" onclick="selectSubject('Physics')">
-        <div class="icon">⚛️</div>
-        <strong>Physics</strong>
-        <span>Concept • Formula • Numericals</span>
-      </button>
-
-      <button class="subject" onclick="selectSubject('Chemistry')">
-        <div class="icon">🧪</div>
-        <strong>Chemistry</strong>
-        <span>Reactions • Theory • Practice</span>
-      </button>
-
-      <button class="subject" onclick="selectSubject('Biology')">
-        <div class="icon">🧬</div>
-        <strong>Biology</strong>
-        <span>Diagrams • Concepts • Revision</span>
-      </button>
-
-      <button class="subject" onclick="selectSubject('Maths')">
-        <div class="icon">📐</div>
-        <strong>Maths</strong>
-        <span>Questions • Steps • Solutions</span>
-      </button>
-
-      <button class="subject" onclick="selectSubject('English')">
-        <div class="icon">📖</div>
-        <strong>English</strong>
-        <span>Grammar • Literature • Writing</span>
-      </button>
-
-      <button class="subject" onclick="selectSubject('Hindi')">
-        <div class="icon">📝</div>
-        <strong>Hindi</strong>
-        <span>व्याकरण • साहित्य • लेखन</span>
-      </button>
-
-    </div>
-
-    <div class="chat-card">
-
-      <div class="chat-head">
-        <div>
-          <strong>🤖 StudyPro AI Assistant</strong>
-          <div class="online">● Online Demo</div>
-        </div>
-        <span id="subjectLabel">General</span>
-      </div>
-
-      <div class="messages" id="messages">
-
-        <div class="message ai">
-          <div class="bubble">
-            नमस्ते! 👋<br><br>
-            मैं StudyPro AI हूँ। अपना सवाल लिखो और मैं उसे
-            आसान भाषा में समझाने की कोशिश करूँगा।
-          </div>
-        </div>
-
-      </div>
-
-      <div class="chat-input-area">
-
-        <textarea
-          id="question"
-          placeholder="उदाहरण: न्यूटन का पहला नियम आसान भाषा में समझाओ..."
-        ></textarea>
-
-        <div class="send-row">
-          <div class="selected">
-            विषय: <b id="selectedSubject">General</b>
-          </div>
-
-          <button class="send-btn" onclick="askAI()">
-            पूछें 🚀
-          </button>
-        </div>
-
-      </div>
-
-    </div>
-
-    <h2 class="section-title">⚡ Quick Study Tools</h2>
-
-    <div class="tools">
-
-      <div class="tool" onclick="quickTool('notes')">
-        <div class="tool-icon">📒</div>
-        <h3>Smart Notes</h3>
-        <p>किसी topic के आसान notes तैयार करें।</p>
-      </div>
-
-      <div class="tool" onclick="quickTool('quiz')">
-        <div class="tool-icon">🧠</div>
-        <h3>AI Quiz</h3>
-        <p>अपनी तैयारी को questions से check करें।</p>
-      </div>
-
-      <div class="tool" onclick="quickTool('revision')">
-        <div class="tool-icon">🔄</div>
-        <h3>Revision</h3>
-        <p>Quick revision points तैयार करें।</p>
-      </div>
-
-      <div class="tool" onclick="quickTool('planner')">
-        <div class="tool-icon">📅</div>
-        <h3>Study Planner</h3>
-        <p>अपनी पढ़ाई का daily plan बनाएं।</p>
-      </div>
-
-    </div>
-
-  </main>
-
-  <footer class="footer">
-    © 2026 StudyPro AI • Made with ❤️ by Sonu
-  </footer>
-
-  <div class="toast" id="toast"></div>
-
-  <script>
-
-    let currentSubject = "General";
-
-    function selectSubject(subject) {
-      currentSubject = subject;
-
-      document.getElementById("subjectLabel").textContent = subject;
-      document.getElementById("selectedSubject").textContent = subject;
-
-      showToast(subject + " चुना गया ✅");
-    }
-
-    function askAI() {
-
-      const input = document.getElementById("question");
-      const text = input.value.trim();
-
-      if (!text) {
-        showToast("पहले अपना सवाल लिखो ✍️");
+    addMessage(escapeHTML(text), "user");
+
+    input.value = "";
+
+    const loadingId = addLoadingMessage();
+
+    try {
+      const response = await fetch("/api/ask", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          question: text,
+          subject: currentSubject
+        })
+      });
+
+      const data = await response.json();
+
+      removeLoadingMessage(loadingId);
+
+      if (!response.ok) {
+        addMessage(
+          "❌ " + escapeHTML(data.error || "कुछ गलत हो गया।"),
+          "ai"
+        );
         return;
       }
 
-      addMessage(text, "user");
+      addMessage(formatAIResponse(data.answer), "ai");
 
-      input.value = "";
+    } catch (error) {
+      removeLoadingMessage(loadingId);
 
-      setTimeout(() => {
-
-        let answer =
-          "यह StudyPro AI का demo उत्तर है।<br><br>" +
-          "आपने <b>" + currentSubject + "</b> में पूछा:<br>" +
-          "<b>" + escapeHTML(text) + "</b><br><br>" +
-          "असली AI उत्तर देने के लिए इस वेबसाइट को सुरक्षित backend/API से जोड़ना होगा।";
-
-        addMessage(answer, "ai");
-
-      }, 700);
-
+      addMessage(
+        "❌ Server से connection नहीं हो पाया। क्या StudyPro AI server चालू है?",
+        "ai"
+      );
     }
+  }
 
-    function addMessage(text, type) {
+  function addMessage(text, type) {
+    const box = document.getElementById("messages");
 
-      const box = document.getElementById("messages");
+    const message = document.createElement("div");
+    message.className = "message " + type;
 
-      const message = document.createElement("div");
-      message.className = "message " + type;
+    const bubble = document.createElement("div");
+    bubble.className = "bubble";
 
-      const bubble = document.createElement("div");
-      bubble.className = "bubble";
-      bubble.innerHTML = text;
+    bubble.innerHTML = text;
 
-      message.appendChild(bubble);
-      box.appendChild(message);
+    message.appendChild(bubble);
+    box.appendChild(message);
 
-      box.scrollTop = box.scrollHeight;
+    box.scrollTop = box.scrollHeight;
+  }
+
+  function addLoadingMessage() {
+    const box = document.getElementById("messages");
+
+    const id = "loading-" + Date.now();
+
+    const message = document.createElement("div");
+    message.className = "message ai";
+    message.id = id;
+
+    message.innerHTML = `
+      <div class="bubble">
+        🤖 सोच रहा हूँ<span class="dots">...</span>
+      </div>
+    `;
+
+    box.appendChild(message);
+    box.scrollTop = box.scrollHeight;
+
+    return id;
+  }
+
+  function removeLoadingMessage(id) {
+    const element = document.getElementById(id);
+
+    if (element) {
+      element.remove();
     }
+  }
 
-    function quickTool(tool) {
+  function formatAIResponse(text) {
+    let safe = escapeHTML(text);
 
-      const names = {
-        notes: "Smart Notes",
-        quiz: "AI Quiz",
-        revision: "Revision",
-        planner: "Study Planner"
-      };
+    safe = safe.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
 
-      document.getElementById("question").value =
-        names[tool] + " बनाओ मेरे लिए।";
+    safe = safe.replace(
+      /\n/g,
+      "<br>"
+    );
 
-      document.getElementById("question").focus();
+    return safe;
+  }
 
-      showToast(names[tool] + " चुना गया ✨");
+  function quickTool(tool) {
+    const prompts = {
+      notes:
+        "इस topic के आसान और exam-friendly notes बनाओ। Important points और formulas भी दो।",
+
+      quiz:
+        "इस topic पर 10 MCQ quiz बनाओ। पहले questions दो और अंत में answers दो।",
+
+      revision:
+        "इस topic का quick revision तैयार करो। Important definitions, formulas और key points शामिल करो।",
+
+      planner:
+        "मेरे लिए एक practical daily study plan बनाओ जिसमें subjects, study sessions और revision शामिल हों।"
+    };
+
+    document.getElementById("question").value = prompts[tool];
+
+    document.getElementById("question").focus();
+
+    showToast("AI tool तैयार है ✨");
+  }
+
+  function toggleTheme() {
+    document.body.classList.toggle("dark");
+
+    const dark = document.body.classList.contains("dark");
+
+    document.getElementById("themeBtn").textContent =
+      dark ? "☀️" : "🌙";
+
+    localStorage.setItem(
+      "studypro-theme",
+      dark ? "dark" : "light"
+    );
+  }
+
+  function loadTheme() {
+    const saved = localStorage.getItem("studypro-theme");
+
+    if (saved === "dark") {
+      document.body.classList.add("dark");
+      document.getElementById("themeBtn").textContent = "☀️";
     }
+  }
 
-    function toggleTheme() {
+  function showToast(message) {
+    const toast = document.getElementById("toast");
 
-      document.body.classList.toggle("dark");
+    toast.textContent = message;
+    toast.classList.add("show");
 
-      const dark = document.body.classList.contains("dark");
+    setTimeout(() => {
+      toast.classList.remove("show");
+    }, 1800);
+  }
 
-      document.getElementById("themeBtn").textContent =
-        dark ? "☀️" : "🌙";
+  function escapeHTML(text) {
+    return String(text)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
 
-      localStorage.setItem("studypro-theme", dark ? "dark" : "light");
-    }
-
-    function loadTheme() {
-
-      const saved = localStorage.getItem("studypro-theme");
-
-      if (saved === "dark") {
-        document.body.classList.add("dark");
-        document.getElementById("themeBtn").textContent = "☀️";
+  document
+    .getElementById("question")
+    .addEventListener("keydown", function (event) {
+      if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        askAI();
       }
-    }
+    });
 
-    function showToast(message) {
-
-      const toast = document.getElementById("toast");
-
-      toast.textContent = message;
-      toast.classList.add("show");
-
-      setTimeout(() => {
-        toast.classList.remove("show");
-      }, 1800);
-    }
-
-    function escapeHTML(text) {
-      return text
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
-
-    loadTheme();
-
-  </script>
-
-</body>
-                             </html>
+  loadTheme();
+      </script>
