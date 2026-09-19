@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="hi">
+<!DOCTYPE html><html lang="hi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🧮 AI Maths Teacher Pro - Gemini 2.5 Flash</title>
-  <style>
+  <title>🧮 AI Maths Teacher Pro</title>  <style>
     * {
       margin: 0;
       padding: 0;
@@ -16,17 +14,15 @@
       --secondary: #764ba2;
       --accent: #f093fb;
       --dark: #1a1a2e;
-      --light: #f8f9fa;
       --success: #00b894;
-      --warning: #fdcb6e;
       --danger: #ff7675;
-      --glass: rgba(255, 255, 255, 0.1);
-      --glass-border: rgba(255, 255, 255, 0.2);
+      --glass: rgba(255,255,255,.08);
+      --border: rgba(255,255,255,.18);
     }
 
     body {
-      font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
-      background: linear-gradient(135deg, var(--dark) 0%, #16213e 50%, #1a1a2e 100%);
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(135deg,var(--dark),#16213e);
       min-height: 100vh;
       color: white;
       padding: 20px;
@@ -34,144 +30,68 @@
 
     .container {
       max-width: 900px;
-      margin: 0 auto;
+      margin: auto;
     }
 
-    /* Header */
-    .header {
-      text-align: center;
-      margin-bottom: 30px;
-      padding: 30px;
-      background: var(--glass);
-      border: 1px solid var(--glass-border);
-      border-radius: 20px;
-      backdrop-filter: blur(10px);
-    }
-
-    .header h1 {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
-      background: linear-gradient(135deg, var(--primary), var(--accent));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .header p {
-      color: #a0a0a0;
-      font-size: 1.1rem;
-    }
-
-    .badge {
-      display: inline-block;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      margin-top: 10px;
-      font-weight: 600;
-    }
-
-    /* Cards */
+    .header,
     .card {
       background: var(--glass);
-      border: 1px solid var(--glass-border);
+      border: 1px solid var(--border);
       border-radius: 20px;
       padding: 25px;
       margin-bottom: 20px;
-      backdrop-filter: blur(10px);
-      transition: transform 0.3s, box-shadow 0.3s;
     }
 
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 35px rgba(102, 126, 234, 0.2);
+    .header {
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 2.4rem;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg,var(--primary),var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .header p {
+      color: #ccc;
     }
 
     .card-title {
       font-size: 1.3rem;
+      font-weight: 600;
       margin-bottom: 15px;
       color: var(--accent);
-      display: flex;
-      align-items: center;
-      gap: 10px;
     }
 
-    /* Form Elements */
     label {
       display: block;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       font-weight: 600;
-      color: #d0d0d0;
-    }
-
-    input[type="text"], textarea, select {
-      width: 100%;
-      padding: 15px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 2px solid var(--glass-border);
-      border-radius: 12px;
-      color: white;
-      font-size: 1rem;
-      transition: all 0.3s;
-      font-family: inherit;
-    }
-
-    input[type="text"]:focus, textarea:focus, select:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+      color: #ddd;
     }
 
     textarea {
-      min-height: 120px;
+      width: 100%;
+      min-height: 160px;
+      padding: 15px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      background: rgba(0,0,0,.25);
+      color: white;
+      font-size: 16px;
       resize: vertical;
     }
 
-    select option {
-      background: var(--dark);
-      color: white;
+    textarea::placeholder {
+      color: #aaa;
     }
 
-    /* Buttons */
-    .btn {
-      padding: 15px 30px;
-      border: none;
-      border-radius: 12px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      justify-content: center;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: white;
-      width: 100%;
-    }
-
-    .btn-primary:hover:not(:disabled) {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
-    }
-
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
-      border: 2px solid var(--glass-border);
-    }
-
-    .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.2);
-    }
-
-    .btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
+    textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 15px rgba(102,126,234,.25);
     }
 
     .btn-group {
@@ -180,455 +100,342 @@
       margin-top: 15px;
     }
 
-    .btn-group .btn {
+    button {
       flex: 1;
-    }
-
-    /* Result Section */
-    .result-section {
-      display: none;
-    }
-
-    .result-section.active {
-      display: block;
-    }
-
-    .result-content {
-      background: rgba(0, 0, 0, 0.3);
-      padding: 20px;
+      padding: 14px 20px;
+      border: none;
       border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: .3s;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg,var(--primary),var(--secondary));
+      color: white;
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,.1);
+      color: white;
+      border: 1px solid var(--border);
+    }
+
+    button:hover:not(:disabled) {
+      transform: translateY(-2px);
+    }
+
+    button:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+
+    .answer {
+      background: rgba(0,0,0,.3);
       border-left: 4px solid var(--success);
-      white-space: pre-wrap;
+      border-radius: 12px;
+      padding: 20px;
+      min-height: 120px;
       line-height: 1.8;
-      max-height: 500px;
-      overflow-y: auto;
+      white-space: pre-wrap;
+      overflow-x: auto;
     }
 
-    .result-content::-webkit-scrollbar {
-      width: 8px;
+    .error {
+      display: none;
+      margin-top: 15px;
+      padding: 14px;
+      border-radius: 10px;
+      background: rgba(255,118,117,.15);
+      border: 1px solid var(--danger);
+      color: #ffb3b0;
     }
 
-    .result-content::-webkit-scrollbar-track {
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 4px;
-    }
-
-    .result-content::-webkit-scrollbar-thumb {
-      background: var(--primary);
-      border-radius: 4px;
-    }
-
-    /* Loading */
     .loading {
       text-align: center;
-      padding: 30px;
+      padding: 20px;
     }
 
     .spinner {
-      width: 50px;
-      height: 50px;
-      border: 4px solid var(--glass-border);
-      border-top: 4px solid var(--accent);
+      width: 45px;
+      height: 45px;
+      margin: 0 auto 12px;
+      border: 4px solid rgba(255,255,255,.2);
+      border-top-color: var(--accent);
       border-radius: 50%;
       animation: spin 1s linear infinite;
-      margin: 0 auto 15px;
     }
 
     @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+      to {
+        transform: rotate(360deg);
+      }
     }
 
-    .progress-bar {
-      width: 100%;
-      height: 6px;
-      background: var(--glass-border);
-      border-radius: 3px;
-      overflow: hidden;
-      margin-top: 15px;
-    }
-
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--primary), var(--accent));
-      width: 0%;
-      transition: width 0.3s;
-      animation: progress 2s ease-in-out infinite;
-    }
-
-    @keyframes progress {
-      0% { width: 0%; }
-      50% { width: 70%; }
-      100% { width: 100%; }
-    }
-
-    /* History */
-    .history-item {
-      background: rgba(255, 255, 255, 0.05);
-      padding: 15px;
-      border-radius: 10px;
-      margin-bottom: 10px;
-      cursor: pointer;
-      transition: all 0.3s;
-      border: 1px solid transparent;
-    }
-
-    .history-item:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: var(--primary);
-    }
-
-    .history-question {
-      font-weight: 600;
-      margin-bottom: 5px;
-      color: var(--accent);
-    }
-
-    .history-date {
-      font-size: 0.85rem;
-      color: #888;
-    }
-
-    /* Quick Questions */
-    .quick-questions {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 10px;
-      margin-top: 15px;
-    }
-
-    .quick-btn {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--glass-border);
-      padding: 12px;
-      border-radius: 10px;
-      color: white;
-      cursor: pointer;
-      transition: all 0.3s;
+    .security-note {
       text-align: center;
+      color: #aaa;
+      font-size: 13px;
+      margin-top: 10px;
     }
 
-    .quick-btn:hover {
-      background: var(--primary);
-      transform: scale(1.05);
-    }
+    @media (max-width:600px) {
+      body {
+        padding: 12px;
+      }
 
-    /* Error */
-    .error-box {
-      background: rgba(255, 118, 117, 0.2);
-      border: 2px solid var(--danger);
-      padding: 15px;
-      border-radius: 10px;
-      margin-top: 15px;
-      display: none;
-    }
-
-    .error-box.active {
-      display: block;
-    }
-
-    /* Responsive */
-    @media (max-width: 600px) {
       .header h1 {
         font-size: 1.8rem;
       }
-      
+
+      .card {
+        padding: 18px;
+      }
+
       .btn-group {
         flex-direction: column;
       }
-      
-      .quick-questions {
-        grid-template-columns: 1fr;
-      }
     }
+  </style></head><body><div class="container">  <div class="header">
+    <h1>🧮 AI Maths Teacher Pro</h1>
+    <p>Step-by-step Maths Learning with OpenAI</p>
+  </div>  <div class="card"><div class="card-title">
+  📝 Maths Question
+</div>
 
-    /* Animations */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+<label for="mathQuestion">
+  अपना Maths Question लिखें:
+</label>
 
-    .fade-in {
-      animation: fadeIn 0.5s ease-out;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <!-- Header -->
-    <div class="header fade-in">
-      <h1>🧮 AI Maths Teacher Pro</h1>
-      <p>Advanced Maths Learning with Google Gemini 2.5 Flash</p>
-      <div class="badge">⚡ Powered by Latest AI Technology</div>
+<textarea
+  id="mathQuestion"
+  maxlength="5000"
+  placeholder="उदाहरण: x² + 5x + 6 = 0 को step-by-step solve करो..."
+></textarea>
+
+<div class="btn-group">
+
+  <button
+    class="btn-secondary"
+    id="clearBtn"
+    type="button">
+    🗑️ Clear
+  </button>
+
+  <button
+    class="btn-primary"
+    id="submitBtn"
+    type="button">
+    🚀 समझाओ
+  </button>
+
+</div>
+
+<div id="errorBox" class="error"></div>
+
+  </div>  <div class="card"><div class="card-title">
+  💡 AI Answer
+</div>
+
+<div id="resultContent" class="answer">
+  यहाँ आपका AI answer दिखाई देगा।
+</div>
+
+<div class="btn-group">
+
+  <button
+    class="btn-secondary"
+    id="copyBtn"
+    type="button">
+    📋 Copy
+  </button>
+
+  <button
+    class="btn-secondary"
+    id="clearAnswerBtn"
+    type="button">
+    ❌ Clear Answer
+  </button>
+
+</div>
+
+  </div>  <div class="security-note">
+    🔐 OpenAI API key server पर सुरक्षित है।
+    आपको बार-बार API key डालने की जरूरत नहीं।
+  </div></div><script>
+
+const questionInput =
+  document.getElementById("mathQuestion");
+
+const submitBtn =
+  document.getElementById("submitBtn");
+
+const clearBtn =
+  document.getElementById("clearBtn");
+
+const copyBtn =
+  document.getElementById("copyBtn");
+
+const clearAnswerBtn =
+  document.getElementById("clearAnswerBtn");
+
+const resultContent =
+  document.getElementById("resultContent");
+
+const errorBox =
+  document.getElementById("errorBox");
+
+
+submitBtn.addEventListener("click", askAI);
+
+
+clearBtn.addEventListener("click", () => {
+
+  questionInput.value = "";
+
+  errorBox.style.display = "none";
+
+});
+
+
+clearAnswerBtn.addEventListener("click", () => {
+
+  resultContent.textContent =
+    "यहाँ आपका AI answer दिखाई देगा।";
+
+});
+
+
+copyBtn.addEventListener("click", async () => {
+
+  const text =
+    resultContent.textContent.trim();
+
+  if (!text) return;
+
+  try {
+
+    await navigator.clipboard.writeText(text);
+
+    copyBtn.textContent = "✅ Copied!";
+
+    setTimeout(() => {
+
+      copyBtn.textContent = "📋 Copy";
+
+    },1500);
+
+  } catch {
+
+    showError(
+      "Answer copy नहीं हो पाया।"
+    );
+
+  }
+
+});
+
+
+async function askAI() {
+
+  const question =
+    questionInput.value.trim();
+
+  errorBox.style.display = "none";
+
+
+  if (!question) {
+
+    showError(
+      "❌ कृपया Maths question लिखें।"
+    );
+
+    return;
+
+  }
+
+
+  submitBtn.disabled = true;
+
+  submitBtn.textContent =
+    "⏳ AI सोच रहा है...";
+
+
+  resultContent.innerHTML = `
+    <div class="loading">
+      <div class="spinner"></div>
+      <p>AI आपका question solve कर रहा है...</p>
     </div>
+  `;
 
-    <!-- API Key Card -->
-    <div class="card fade-in">
-      <div class="card-title">🔑 API Configuration</div>
-      <label for="apiKey">Google AI API Key:</label>
-      <input type="text" id="apiKey" placeholder="Apni API Key yahan paste karein (https://makersuite.google.com/app/apikey)">
-      <div style="margin-top: 10px; font-size: 0.85rem; color: #888;">
-        💡 Tip: API key secure hai, sirf aapke browser mein store hoti hai
-      </div>
-    </div>
 
-    <!-- Question Card -->
-    <div class="card fade-in">
-      <div class="card-title">📝 Aapka Maths Question</div>
-      <label for="mathQuestion">Question Likhein:</label>
-      <textarea id="mathQuestion" placeholder="Yahan apna difficult maths question likhein...&#10;&#10;Examples:&#10;- Quadratic equations kaise solve karte hain?&#10;- Integration ka concept samjhao&#10;- Trigonometry ke formulas"></textarea>
-      
-      <!-- Quick Questions -->
-      <div class="quick-questions">
-        <div class="quick-btn" onclick="setQuestion('Quadratic equation kaise solve karte hain? Step-by-step samjhao')">📐 Quadratic Equation</div>
-        <div class="quick-btn" onclick="setQuestion('Integration ka basic concept kya hai? Examples ke saath samjhao')">∫ Integration</div>
-        <div class="quick-btn" onclick="setQuestion('Trigonometry ke saare important formulas batao')">📊 Trigonometry</div>
-        <div class="quick-btn" onclick="setQuestion('Probability kaise calculate karte hain? Real life examples ke saath')">🎲 Probability</div>
-      </div>
+  try {
 
-      <div class="btn-group">
-        <button class="btn btn-secondary" onclick="clearQuestion()">🗑️ Clear</button>
-        <button class="btn btn-primary" id="submitBtn" onclick="askAI()">
-          🚀 Samjhao (Explain)
-        </button>
-      </div>
+    const response =
+      await fetch("/api/solve", {
 
-      <div id="errorBox" class="error-box"></div>
-    </div>
+        method: "POST",
 
-    <!-- Result Card -->
-    <div id="resultSection" class="card result-section">
-      <div class="card-title">💡 AI Answer</div>
-      <div id="resultContent" class="result-content"></div>
-      
-      <div class="btn-group">
-        <button class="btn btn-secondary" onclick="copyAnswer()">📋 Copy Answer</button>
-        <button class="btn btn-secondary" onclick="saveToHistory()">💾 Save</button>
-        <button class="btn btn-secondary" onclick="exportPDF()">📄 Export PDF</button>
-      </div>
-    </div>
+        headers: {
+          "Content-Type": "application/json"
+        },
 
-    <!-- History Card -->
-    <div class="card fade-in">
-      <div class="card-title">📚 Question History</div>
-      <div id="historyList">
-        <div style="text-align: center; color: #888; padding: 20px;">
-          Abhi tak koi history nahi hai
-        </div>
-      </div>
-      <button class="btn btn-secondary" onclick="clearHistory()" style="width: 100%; margin-top: 15px;">
-        🗑️ Clear History
-      </button>
-    </div>
-  </div>
+        body: JSON.stringify({
+          question: question
+        })
 
-  <!-- Google Gen AI Import Map -->
-  <script type="importmap">
-    {
-      "imports": {
-        "@google/genai": "https://esm.run/@google/genai"
-      }
-    }
-  </script>
-
-  <script type="module">
-    import { GoogleGenAI } from '@google/genai';
-
-    // Global functions
-    window.setQuestion = function(text) {
-      document.getElementById('mathQuestion').value = text;
-    };
-
-    window.clearQuestion = function() {
-      document.getElementById('mathQuestion').value = '';
-      document.getElementById('errorBox').classList.remove('active');
-    };
-
-    window.copyAnswer = function() {
-      const content = document.getElementById('resultContent').textContent;
-      navigator.clipboard.writeText(content).then(() => {
-        showToast('✅ Answer copied to clipboard!');
       });
-    };
 
-    window.saveToHistory = function() {
-      const question = document.getElementById('mathQuestion').value;
-      const answer = document.getElementById('resultContent').textContent;
-      
-      if (!question || !answer) return;
 
-      const historyItem = {
-        id: Date.now(),
-        question: question,
-        answer: answer,
-        date: new Date().toLocaleString('hi-IN')
-      };
+    const data =
+      await response.json();
 
-      let history = JSON.parse(localStorage.getItem('mathsHistory') || '[]');
-      history.unshift(historyItem);
-      if (history.length > 20) history.pop(); // Keep only last 20
-      localStorage.setItem('mathsHistory', JSON.stringify(history));
-      
-      loadHistory();
-      showToast('✅ Saved to history!');
-    };
 
-    window.exportPDF = function() {
-      const content = document.getElementById('resultContent').textContent;
-      const question = document.getElementById('mathQuestion').value;
-      
-      const printWindow = window.open('', '', 'height=600,width=800');
-      printWindow.document.write('<html><head><title>Maths Answer</title>');
-      printWindow.document.write('<style>body{font-family:Arial;padding:40px;}h2{color:#667eea;}pre{white-space:pre-wrap;}</style>');
-      printWindow.document.write('</head><body>');
-      printWindow.document.write('<h2>🧮 AI Maths Teacher</h2>');
-      printWindow.document.write('<h3>Question:</h3><p>' + question + '</p>');
-      printWindow.document.write('<h3>Answer:</h3><pre>' + content + '</pre>');
-      printWindow.document.write('</body></html>');
-      printWindow.document.close();
-      printWindow.print();
-    };
+    if (!response.ok) {
 
-    window.clearHistory = function() {
-      if (confirm('Kya aap puri history clear karna chahte hain?')) {
-        localStorage.removeItem('mathsHistory');
-        loadHistory();
-        showToast('🗑️ History cleared!');
-      }
-    };
+      throw new Error(
+        data.error || "Server error"
+      );
 
-    window.loadHistory = function() {
-      const historyList = document.getElementById('historyList');
-      const history = JSON.parse(localStorage.getItem('mathsHistory') || '[]');
-
-      if (history.length === 0) {
-        historyList.innerHTML = '<div style="text-align: center; color: #888; padding: 20px;">Abhi tak koi history nahi hai</div>';
-        return;
-      }
-
-      historyList.innerHTML = history.map(item => `
-        <div class="history-item" onclick="loadHistoryItem(${item.id})">
-          <div class="history-question">${item.question.substring(0, 80)}${item.question.length > 80 ? '...' : ''}</div>
-          <div class="history-date">📅 ${item.date}</div>
-        </div>
-      `).join('');
-    };
-
-    window.loadHistoryItem = function(id) {
-      const history = JSON.parse(localStorage.getItem('mathsHistory') || '[]');
-      const item = history.find(h => h.id === id);
-      
-      if (item) {
-        document.getElementById('mathQuestion').value = item.question;
-        document.getElementById('resultContent').textContent = item.answer;
-        document.getElementById('resultSection').classList.add('active');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    };
-
-    window.showToast = function(message) {
-      const toast = document.createElement('div');
-      toast.style.cssText = `
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        color: white;
-        padding: 15px 25px;
-        border-radius: 10px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        z-index: 1000;
-        animation: fadeIn 0.3s;
-      `;
-      toast.textContent = message;
-      document.body.appendChild(toast);
-      setTimeout(() => toast.remove(), 3000);
-    };
-
-    window.askAI = async function() {
-      const apiKey = document.getElementById('apiKey').value.trim();
-      const question = document.getElementById('mathQuestion').value.trim();
-      const resultSection = document.getElementById('resultSection');
-      const resultContent = document.getElementById('resultContent');
-      const submitBtn = document.getElementById('submitBtn');
-      const errorBox = document.getElementById('errorBox');
-
-      // Validation
-      if (!apiKey) {
-        showError('❌ Please apni API Key dalein!');
-        return;
-      }
-
-      if (!question) {
-        showError('❌ Please koi maths question likhein!');
-        return;
-      }
-
-      errorBox.classList.remove('active');
-      resultSection.classList.add('active');
-      resultContent.innerHTML = `
-        <div class="loading">
-          <div class="spinner"></div>
-          <p>AI soch raha hai... ⏳</p>
-          <div class="progress-bar">
-            <div class="progress-fill"></div>
-          </div>
-        </div>
-      `;
-      submitBtn.disabled = true;
-
-      try {
-        const ai = new GoogleGenAI({ apiKey: apiKey });
-
-        const response = await ai.models.generateContent({
-          model: 'gemini-2.5-flash',
-          contents: `Tum ek expert maths teacher ho jo students ko difficult concepts easily samjhata hai.
-          
-          Instructions:
-          1. Step-by-step explain karo
-          2. Examples do har step ke saath
-          3. Formulas clearly likho
-          4. Common mistakes batao
-          5. Tips do better understanding ke liye
-          6. Hindi mein explain karo (agar question Hindi mein hai)
-          
-          Question: ${question}`
-        });
-
-        resultContent.textContent = response.text;
-        saveToHistory();
-        showToast('✅ Answer ready hai!');
-      } catch (error) {
-        showError(`❌ Error: ${error.message}
-
-Check karein:
-- API key sahi hai?
-- Internet connection hai?`);
-        console.error('AI Error:', error);
-      } finally {
-        submitBtn.disabled = false;
-      }
-    };
-
-    function showError(message) {
-      const errorBox = document.getElementById('errorBox');
-      errorBox.textContent = message;
-      errorBox.classList.add('active');
     }
 
-    // Load history on page load
-    loadHistory();
 
-    // Auto-save API key
-    document.getElementById('apiKey').addEventListener('input', function() {
-      localStorage.setItem('mathsApiKey', this.value);
-    });
+    resultContent.textContent =
+      data.answer;
 
-    // Load saved API key
-    const savedKey = localStorage.getItem('mathsApiKey');
-    if (savedKey) {
-      document.getElementById('apiKey').value = savedKey;
-    }
-  </script>
-</body>
-    </html
+
+  } catch(error) {
+
+    console.error(error);
+
+    resultContent.textContent =
+      "Answer उपलब्ध नहीं है।";
+
+    showError(
+      "❌ AI से answer नहीं मिल पाया। Server और API configuration check करें।"
+    );
+
+
+  } finally {
+
+    submitBtn.disabled = false;
+
+    submitBtn.textContent =
+      "🚀 समझाओ";
+
+  }
+
+}
+
+
+function showError(message) {
+
+  errorBox.textContent = message;
+
+  errorBox.style.display = "block";
+
+}
+
+</script></body>
+</html>
